@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplop Romantis 💌</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ffe6f0;
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  /* Amplop */
+  .envelope {
+    width: 300px;
+    height: 200px;
+    background: #ff4d99;
+    position: relative;
+    cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    transition: transform 0.6s;
+    z-index: 2;
+  }
+
+  .envelope.open {
+    transform: rotateX(180deg);
+    background: #fff0f5;
+    color: #ff4d99;
+  }
+
+  /* Teks surat */
+  .letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    text-align: center;
+    color: #ff4d99;
+    font-size: 1em;
+    line-height: 1.5em;
+    max-width: 250px;
+    z-index: 1;
+  }
+
+  .letter.show {
+    opacity: 1;
+    transition: opacity 1s;
+  }
+
+  /* Efek bintang dan bunga */
+  .star, .flower {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float 5s linear infinite;
+  }
+
+  .star {
+    background: yellow;
+  }
+
+  .flower {
+    background: pink;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); opacity:1; }
+    100% { transform: translateY(-600px) translateX(50px); opacity:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="envelope" id="envelope">Baca yaaa 💌</div>
+<div class="letter" id="letter"></div>
+
+<audio id="music" src="musik.mp3" preload="auto"></audio>
+
+<script>
+const envelope = document.getElementById('envelope');
+const letter = document.getElementById('letter');
+const music = document.getElementById('music');
+
+const messages = [
+"halloo sayangg aku mau cerita dikit boleh ya hehe...",
+"aku suka semua tentang kamu, aku suka banget kalo kamu marahin aku, aku suka kalo kamu ingetin aku apapun itu, maafin aku kalo suka buat masalah, maaf gara gara aku jadi sering berantem, tapi masalah apapun yang terjadi jangan pernah berfikir buat pergi yaa?",
+"aku tau ko aku salah, aku ga bisa ngertiin kamu, aku selalu berlebihan selalu ovt sama kamu, karena aku ga pernah sesayaang ini sama orang.",
+"aku minta maaf blom bisa nepatin omongan aku sendiri tapi aku masih mau belajar banyak, pokoknya aku minta maaf lagi dan lagi sama kamu.",
+"Kalo kamu lagi ada masalah cerita sama akuyaa ? jangan pernah ngerasa kalo kamu sendirian karna ada aku disini, aku bakal bantu sebisa aku",
+"ohiya, aku baru sadar ternyata kalo aku bersyukur bisa sama kamu itu ternyata bikin aku makin seneng banget rasanya coba kamu rasain deh...",
+"kamu ga perlu nanya lagi kalo aku sayang atau ngga sama kamu karna kamu udah pasti tau jawabannyaaaa, makasi udah selalu buat aku seneng dengan perhatian perhatian kecil yang kamu kasih, aku bener bener beruntung banget bisa sama kamu, ohiya aku harap kamu juga ngerasain hal yang sama yaaa, makaasii sayangg......💌"
+];
+
+envelope.addEventListener('click', () => {
+  envelope.classList.add('open');
+  music.play();
+  showMessage(0);
+  startEffects();
+});
+
+function showMessage(index) {
+  if(index >= messages.length) return;
+  letter.textContent = messages[index];
+  letter.classList.add('show');
+  setTimeout(() => {
+    letter.classList.remove('show');
+    showMessage(index + 1);
+  }, 5000); // tampil 5 detik per kalimat
+}
+
+// Efek bintang dan bunga
+function createEffect() {
+  const star = document.createElement('div');
+  star.classList.add(Math.random() > 0.5 ? 'star' : 'flower');
+  star.style.left = Math.random()*window.innerWidth + 'px';
+  star.style.bottom = '-20px';
+  star.style.width = star.style.height = (5 + Math.random()*10) + 'px';
+  document.body.appendChild(star);
+  setTimeout(() => star.remove(), 5000);
+}
+
+function startEffects() {
+  setInterval(createEffect, 300);
+}
+</script>
+
+</body>
+</html>
